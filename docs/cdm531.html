@@ -580,7 +580,7 @@ gender_concept_id
 This field is meant to capture the biological sex at birth of the Person. This field should not be used to study gender identity issues.
 </td>
 <td style="text-align:left;width: 4in; ">
-Use the gender or sex value present in the data under the assumption that it is the biological sex at birth. If the source data captures gender identity it should be stored in the <a href="https://ohdsi.github.io/CommonDataModel/cdm531.html#observation">OBSERVATION</a> table. <a href="http://athena.ohdsi.org/search-terms/terms?domain=Gender&amp;standardConcept=Standard&amp;page=1&amp;pageSize=15&amp;query=">Accepted gender concepts</a>
+Use the gender or sex value present in the data under the assumption that it is the biological sex at birth. If the source data captures gender identity it should be stored in the <a href="https://lifebellai.github.io/CommonDataModel/cdm531.html#observation">OBSERVATION</a> table. <a href="http://athena.ohdsi.org/search-terms/terms?domain=Gender&amp;standardConcept=Standard&amp;page=1&amp;pageSize=15&amp;query=">Accepted gender concepts</a>
 </td>
 <td style="text-align:left;width: 1in; ">
 integer
@@ -772,7 +772,7 @@ location_id
 The location refers to the physical address of the person. This field should capture the last known location of the person.
 </td>
 <td style="text-align:left;width: 4in; ">
-Put the location_id from the <a href="https://ohdsi.github.io/CommonDataModel/cdm531.html#location">LOCATION</a> table here that represents the most granular location information for the person. This could represent anything from postal code or parts thereof, state, or county for example. Since many databases contain deidentified data, it is common that the precision of the location is reduced to prevent re-identification. This field should capture the last known location.
+Put the location_id from the <a href="https://lifebellai.github.io/CommonDataModel/cdm531.html#location">LOCATION</a> table here that represents the most granular location information for the person. This could represent anything from postal code or parts thereof, state, or county for example. Since many databases contain deidentified data, it is common that the precision of the location is reduced to prevent re-identification. This field should capture the last known location.
 </td>
 <td style="text-align:left;width: 1in; ">
 integer
@@ -800,7 +800,7 @@ provider_id
 The Provider refers to the last known primary care provider (General Practitioner).
 </td>
 <td style="text-align:left;width: 4in; ">
-Put the provider_id from the <a href="https://ohdsi.github.io/CommonDataModel/cdm531.html#provider">PROVIDER</a> table of the last known general practitioner of the person. If there are multiple providers, it is up to the ETL to decide which to put here.
+Put the provider_id from the <a href="https://lifebellai.github.io/CommonDataModel/cdm531.html#provider">PROVIDER</a> table of the last known general practitioner of the person. If there are multiple providers, it is up to the ETL to decide which to put here.
 </td>
 <td style="text-align:left;width: 1in; ">
 integer
@@ -1145,7 +1145,7 @@ observation_period_start_date
 Use this date to determine the start date of the Observation Period.
 </td>
 <td style="text-align:left;width: 4in; ">
-It is often the case that the idea of Observation Periods does not exist in source data. In those cases, the observation_period_start_date can be inferred as the earliest Event date available for the Person. In insurance claim data, the Observation Period can be considered as the time period the Person is enrolled with a payer. If a Person switches plans but stays with the same payer, and therefore capturing of data continues, that change would be captured in <a href="https://ohdsi.github.io/CommonDataModel/cdm531.html#payer_plan_period">PAYER_PLAN_PERIOD</a>.
+It is often the case that the idea of Observation Periods does not exist in source data. In those cases, the observation_period_start_date can be inferred as the earliest Event date available for the Person. In insurance claim data, the Observation Period can be considered as the time period the Person is enrolled with a payer. If a Person switches plans but stays with the same payer, and therefore capturing of data continues, that change would be captured in <a href="https://lifebellai.github.io/CommonDataModel/cdm531.html#payer_plan_period">PAYER_PLAN_PERIOD</a>.
 </td>
 <td style="text-align:left;width: 1in; ">
 date
@@ -1503,7 +1503,7 @@ provider_id
 There will only be one provider per visit record and the ETL document should clearly state how they were chosen (attending, admitting, etc.). If there are multiple providers associated with a visit in the source, this can be reflected in the event tables (CONDITION_OCCURRENCE, PROCEDURE_OCCURRENCE, etc.) or in the VISIT_DETAIL table.
 </td>
 <td style="text-align:left;width: 4in; ">
-If there are multiple providers associated with a visit, you will need to choose which one to put here. The additional providers can be stored in the <a href="https://ohdsi.github.io/CommonDataModel/cdm531.html#visit_detail">VISIT_DETAIL</a> table.
+If there are multiple providers associated with a visit, you will need to choose which one to put here. The additional providers can be stored in the <a href="https://lifebellai.github.io/CommonDataModel/cdm531.html#visit_detail">VISIT_DETAIL</a> table.
 </td>
 <td style="text-align:left;width: 1in; ">
 integer
@@ -2316,7 +2316,7 @@ VISIT_OCCURRENCE
 <p><strong>Table Description</strong></p>
 <p>This table contains records of Events of a Person suggesting the presence of a disease or medical condition stated as a diagnosis, a sign, or a symptom, which is either observed by a Provider or reported by the patient.</p>
 <p><strong>User Guide</strong></p>
-<p>Conditions are defined by Concepts from the Condition domain, which form a complex hierarchy. As a result, the same Person with the same disease may have multiple Condition records, which belong to the same hierarchical family. Most Condition records are mapped from diagnostic codes, but recorded signs, symptoms and summary descriptions also contribute to this table. Rule out diagnoses should not be recorded in this table, but in reality their negating nature is not always captured in the source data, and other precautions must be taken when when identifying Persons who should suffer from the recorded Condition. Record all conditions as they exist in the source data. Any decisions about diagnosis/phenotype definitions would be done through cohort specifications. These cohorts can be housed in the <a href="https://ohdsi.github.io/CommonDataModel/cdm531.html#payer_plan_period">COHORT</a> table. Conditions span a time interval from start to end, but are typically recorded as single snapshot records with no end date. The reason is twofold: (i) At the time of the recording the duration is not known and later not recorded, and (ii) the Persons typically cease interacting with the healthcare system when they feel better, which leads to incomplete capture of resolved Conditions. The <a href="https://ohdsi.github.io/CommonDataModel/cdm531.html#condition_era">CONDITION_ERA</a> table addresses this issue. Family history and past diagnoses (‘history of’) are not recorded in this table. Instead, they are listed in the <a href="https://ohdsi.github.io/CommonDataModel/cdm531.html#observation">OBSERVATION</a> table. Codes written in the process of establishing the diagnosis, such as ‘question of’ of and ‘rule out’, should not represented here. Instead, they should be recorded in the <a href="https://ohdsi.github.io/CommonDataModel/cdm531.html#observation">OBSERVATION</a> table, if they are used for analyses. However, this information is not always available.</p>
+<p>Conditions are defined by Concepts from the Condition domain, which form a complex hierarchy. As a result, the same Person with the same disease may have multiple Condition records, which belong to the same hierarchical family. Most Condition records are mapped from diagnostic codes, but recorded signs, symptoms and summary descriptions also contribute to this table. Rule out diagnoses should not be recorded in this table, but in reality their negating nature is not always captured in the source data, and other precautions must be taken when when identifying Persons who should suffer from the recorded Condition. Record all conditions as they exist in the source data. Any decisions about diagnosis/phenotype definitions would be done through cohort specifications. These cohorts can be housed in the <a href="https://lifebellai.github.io/CommonDataModel/cdm531.html#payer_plan_period">COHORT</a> table. Conditions span a time interval from start to end, but are typically recorded as single snapshot records with no end date. The reason is twofold: (i) At the time of the recording the duration is not known and later not recorded, and (ii) the Persons typically cease interacting with the healthcare system when they feel better, which leads to incomplete capture of resolved Conditions. The <a href="https://lifebellai.github.io/CommonDataModel/cdm531.html#condition_era">CONDITION_ERA</a> table addresses this issue. Family history and past diagnoses (‘history of’) are not recorded in this table. Instead, they are listed in the <a href="https://lifebellai.github.io/CommonDataModel/cdm531.html#observation">OBSERVATION</a> table. Codes written in the process of establishing the diagnosis, such as ‘question of’ of and ‘rule out’, should not represented here. Instead, they should be recorded in the <a href="https://lifebellai.github.io/CommonDataModel/cdm531.html#observation">OBSERVATION</a> table, if they are used for analyses. However, this information is not always available.</p>
 <p><strong>ETL Conventions</strong></p>
 <p>Source codes and source text fields mapped to Standard Concepts of the Condition Domain have to be recorded here.</p>
 <table class="table table-condensed table-hover" style="font-size: 13px; margin-left: auto; margin-right: auto;">
@@ -2980,7 +2980,7 @@ drug_exposure_end_date
 The DRUG_EXPOSURE_END_DATE denotes the day the drug exposure ended for the patient.
 </td>
 <td style="text-align:left;width: 4in; ">
-If this information is not explicitly available in the data, infer the end date using the following methods:<br><br> 1. Start first with duration or days supply using the calculation drug start date + days supply -1 day. 2. Use quantity divided by daily dose that you may obtain from the sig or a source field (or assumed daily dose of 1) for solid, indivisibile, drug products. If quantity represents ingredient amount, quantity divided by daily dose * concentration (from drug_strength) drug concept id tells you the dose form. 3. If it is an administration record, set drug end date equal to drug start date. If the record is a written prescription then set end date to start date + 29. If the record is a mail-order prescription set end date to start date + 89. The end date must be equal to or greater than the start date. Ibuprofen 20mg/mL oral solution concept tells us this is oral solution. Calculate duration as quantity (200 example) * daily dose (5mL) /concentration (20mg/mL) 200*5/20 = 50 days. <a href="https://ohdsi.github.io/CommonDataModel/drug_dose.html">Examples by dose form</a>
+If this information is not explicitly available in the data, infer the end date using the following methods:<br><br> 1. Start first with duration or days supply using the calculation drug start date + days supply -1 day. 2. Use quantity divided by daily dose that you may obtain from the sig or a source field (or assumed daily dose of 1) for solid, indivisibile, drug products. If quantity represents ingredient amount, quantity divided by daily dose * concentration (from drug_strength) drug concept id tells you the dose form. 3. If it is an administration record, set drug end date equal to drug start date. If the record is a written prescription then set end date to start date + 29. If the record is a mail-order prescription set end date to start date + 89. The end date must be equal to or greater than the start date. Ibuprofen 20mg/mL oral solution concept tells us this is oral solution. Calculate duration as quantity (200 example) * daily dose (5mL) /concentration (20mg/mL) 200*5/20 = 50 days. <a href="https://lifebellai.github.io/CommonDataModel/drug_dose.html">Examples by dose form</a>
 </td>
 <td style="text-align:left;width: 1in; ">
 date
@@ -3141,7 +3141,7 @@ quantity
 <td style="text-align:left;width: 3in; ">
 </td>
 <td style="text-align:left;width: 4in; ">
-To find the dose form of a drug the RELATIONSHIP table can be used where the relationship_id is ‘Has dose form’. If liquid, quantity stands for the total amount dispensed or ordered of ingredient in the units given by the drug_strength table. If the unit from the source data does not align with the unit in the DRUG_STRENGTH table the quantity should be converted to the correct unit given in DRUG_STRENGTH. For clinical drugs with fixed dose forms (tablets etc.) the quantity is the number of units/tablets/capsules prescribed or dispensed (can be partial, but then only 1/2 or 1/3, not 0.01). Clinical drugs with divisible dose forms (injections) the quantity is the amount of ingredient the patient got. For example, if the injection is 2mg/mL but the patient got 80mL then quantity is reported as 160. Quantified clinical drugs with divisible dose forms (prefilled syringes), the quantity is the amount of ingredient similar to clinical drugs. Please see <a href="https://ohdsi.github.io/CommonDataModel/drug_dose.html">how to calculate drug dose</a> for more information.
+To find the dose form of a drug the RELATIONSHIP table can be used where the relationship_id is ‘Has dose form’. If liquid, quantity stands for the total amount dispensed or ordered of ingredient in the units given by the drug_strength table. If the unit from the source data does not align with the unit in the DRUG_STRENGTH table the quantity should be converted to the correct unit given in DRUG_STRENGTH. For clinical drugs with fixed dose forms (tablets etc.) the quantity is the number of units/tablets/capsules prescribed or dispensed (can be partial, but then only 1/2 or 1/3, not 0.01). Clinical drugs with divisible dose forms (injections) the quantity is the amount of ingredient the patient got. For example, if the injection is 2mg/mL but the patient got 80mL then quantity is reported as 160. Quantified clinical drugs with divisible dose forms (prefilled syringes), the quantity is the amount of ingredient similar to clinical drugs. Please see <a href="https://lifebellai.github.io/CommonDataModel/drug_dose.html">how to calculate drug dose</a> for more information.
 </td>
 <td style="text-align:left;width: 1in; ">
 float
@@ -9102,7 +9102,7 @@ No
 <p><strong>Table Description</strong></p>
 <p>A Drug Era is defined as a span of time when the Person is assumed to be exposed to a particular active ingredient. A Drug Era is not the same as a Drug Exposure: Exposures are individual records corresponding to the source when Drug was delivered to the Person, while successive periods of Drug Exposures are combined under certain rules to produce continuous Drug Eras.</p>
 <p><strong>ETL Conventions</strong></p>
-<p>The SQL script for generating DRUG_ERA records can be found <a href="https://ohdsi.github.io/CommonDataModel/sqlScripts.html#drug_eras">here</a>.</p>
+<p>The SQL script for generating DRUG_ERA records can be found <a href="https://lifebellai.github.io/CommonDataModel/sqlScripts.html#drug_eras">here</a>.</p>
 <table class="table table-condensed table-hover" style="font-size: 13px; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -9557,7 +9557,7 @@ No
 <li>It allows aggregation of multiple, closely timed doctor visits for the same Condition to avoid double-counting the Condition Occurrences. For example, consider a Person who visits her Primary Care Physician (PCP) and who is referred to a specialist. At a later time, the Person visits the specialist, who confirms the PCP’s original diagnosis and provides the appropriate treatment to resolve the condition. These two independent doctor visits should be aggregated into one Condition Era.</li>
 </ul>
 <p><strong>ETL Conventions</strong></p>
-<p>Each Condition Era corresponds to one or many Condition Occurrence records that form a continuous interval. The condition_concept_id field contains Concepts that are identical to those of the CONDITION_OCCURRENCE table records that make up the Condition Era. In contrast to Drug Eras, Condition Eras are not aggregated to contain Conditions of different hierarchical layers. The SQl Script for generating CONDITION_ERA records can be found <a href="https://ohdsi.github.io/CommonDataModel/sqlScripts.html#condition_eras">here</a> The Condition Era Start Date is the start date of the first Condition Occurrence. The Condition Era End Date is the end date of the last Condition Occurrence. Condition Eras are built with a Persistence Window of 30 days, meaning, if no occurrence of the same condition_concept_id happens within 30 days of any one occurrence, it will be considered the condition_era_end_date.</p>
+<p>Each Condition Era corresponds to one or many Condition Occurrence records that form a continuous interval. The condition_concept_id field contains Concepts that are identical to those of the CONDITION_OCCURRENCE table records that make up the Condition Era. In contrast to Drug Eras, Condition Eras are not aggregated to contain Conditions of different hierarchical layers. The SQl Script for generating CONDITION_ERA records can be found <a href="https://lifebellai.github.io/CommonDataModel/sqlScripts.html#condition_eras">here</a> The Condition Era Start Date is the start date of the first Condition Occurrence. The Condition Era End Date is the end date of the last Condition Occurrence. Condition Eras are built with a Persistence Window of 30 days, meaning, if no occurrence of the same condition_concept_id happens within 30 days of any one occurrence, it will be considered the condition_era_end_date.</p>
 <table class="table table-condensed table-hover" style="font-size: 13px; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -10368,7 +10368,7 @@ No
 domain_id
 </td>
 <td style="text-align:left;width: 3in; ">
-A foreign key to the <a href="https://ohdsi.github.io/CommonDataModel/cdm531.html#domain">DOMAIN</a> table the Concept belongs to.
+A foreign key to the <a href="https://lifebellai.github.io/CommonDataModel/cdm531.html#domain">DOMAIN</a> table the Concept belongs to.
 </td>
 <td style="text-align:left;width: 4in; ">
 </td>
@@ -10395,7 +10395,7 @@ DOMAIN
 vocabulary_id
 </td>
 <td style="text-align:left;width: 3in; ">
-A foreign key to the <a href="https://ohdsi.github.io/CommonDataModel/cdm531.html#vocabulary">VOCABULARY</a> table indicating from which source the Concept has been adapted.
+A foreign key to the <a href="https://lifebellai.github.io/CommonDataModel/cdm531.html#vocabulary">VOCABULARY</a> table indicating from which source the Concept has been adapted.
 </td>
 <td style="text-align:left;width: 4in; ">
 </td>
@@ -11080,7 +11080,7 @@ CONCEPT
 relationship_id
 </td>
 <td style="text-align:left;width: 3in; ">
-The relationship between CONCEPT_ID_1 and CONCEPT_ID_2. Please see the <a href="https://ohdsi.github.io/CommonDataModel/dataModelConventions.html#concept_relationships">Vocabulary Conventions</a>. for more information.
+The relationship between CONCEPT_ID_1 and CONCEPT_ID_2. Please see the <a href="https://lifebellai.github.io/CommonDataModel/dataModelConventions.html#concept_relationships">Vocabulary Conventions</a>. for more information.
 </td>
 <td style="text-align:left;width: 4in; ">
 </td>
@@ -11354,7 +11354,7 @@ No
 relationship_concept_id
 </td>
 <td style="text-align:left;width: 3in; ">
-A foreign key that refers to an identifier in the <a href="https://ohdsi.github.io/CommonDataModel/cdm531.html#concept">CONCEPT</a> table for the unique relationship concept.
+A foreign key that refers to an identifier in the <a href="https://lifebellai.github.io/CommonDataModel/cdm531.html#concept">CONCEPT</a> table for the unique relationship concept.
 </td>
 <td style="text-align:left;width: 4in; ">
 </td>

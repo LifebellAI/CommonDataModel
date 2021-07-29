@@ -6,7 +6,7 @@ Please be aware that v6.0 of the OMOP CDM is **not** fully supported by the OHDS
 Common Data Model v6.0
 =================
 
- See full CDM specifications on our [website](https://ohdsi.github.io/CommonDataModel/index.html).
+ See full CDM specifications on our [website](https://lifebellai.github.io/CommonDataModel/index.html).
 
 
 Release Notes for v6.0
